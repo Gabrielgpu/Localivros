@@ -10,7 +10,8 @@ from .forms import SignUpForm
 
 class UserLoginView(LoginView):
   template_name = 'login.html'
-  redirect_authenticated_user = True
+  redirect_authenticated_user = False
+  success_url = reverse_lazy('producs | Essa rota ainda não existe')
   success_message = 'Login realizado com sucesso!'
   error_message = 'Usuário ou senha incorretos.'
 
@@ -27,7 +28,7 @@ class UserLoginView(LoginView):
 
 
 class UserLogoutView(LoginRequiredMixin, LogoutView):
-  template_name = 'logout.html'
+  next_page = reverse_lazy('login')
   success_message = 'Logout realizado com sucesso!'
 
   def dispatch(self, request, *args, **kwargs):
@@ -42,5 +43,5 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
 class UserCreateView(SuccessMessageMixin, CreateView):
   form_class = SignUpForm
   template_name = 'register.html'
-  success_url = reverse_lazy('products')
+  success_url = reverse_lazy('login')
   success_message = 'Cadastro realizado com sucesso!'
