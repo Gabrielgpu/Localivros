@@ -10,8 +10,8 @@ from .forms import SignUpForm
 
 class UserLoginView(LoginView):
   template_name = 'login.html'
-  redirect_authenticated_user = False
-  success_url = reverse_lazy('producs | Essa rota ainda não existe')
+  redirect_authenticated_user = True
+  success_url = reverse_lazy('books')
   success_message = 'Login realizado com sucesso!'
   error_message = 'Usuário ou senha incorretos.'
 
