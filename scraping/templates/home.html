@@ -1,22 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+  <script src="{% static 'scraping/js/busca.js' %}"></script>
+{% endblock scripts %}
 
 {% block content %}
   <div class="home search-container">
-
     <h1 class="center-text">📚 Buscar Livro por ISBN</h1>
 
     <div class="form-container search-container">
       <form class="d-flex" role="search" action="{% url 'book_search' %}" method="post">
         {% csrf_token %}
         <input class="form-control me-2" type="search" name="isbn" placeholder="ISBN" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
+        <button class="btn btn-outline-success" type="submit" id="search-button">Buscar</button>
       </form>
+
+      <div id="loading-spinner" class="mt-3 text-center" style="display: none;">
+        <div class="spinner-border text-success" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p>Buscando livro...</p>
+      </div>
     </div>
-
   </div>
+
 {% endblock content %}
-
-
-
-
-
