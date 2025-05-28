@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy   
 from django.shortcuts import redirect
 from .models import Book
-from .forms import AddBookForm
+from .forms import EditBookForm
 
 
 
@@ -57,7 +57,7 @@ class BookDetailView(LoginRequiredMixin, DetailView):
   context_object_name = 'product'
 
 class BookUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-  form_class = AddBookForm
+  form_class = EditBookForm
   model = Book
   pk_url_kwarg = 'id'
   template_name = 'update_book.html'
