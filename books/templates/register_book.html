@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+  <script src="{% static 'books/js/cadastro.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+  <div id="id" class="d-flex container shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <div>
+      <img src="{{ metadata.url_external_images }}" alt="" width="350" class="m-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+    </div>
+
+    <section>
+      <p>
+        <h1>{{ metadata.title }}</h1>
+      </p>
+
+      <p>
+        <strong>ISBN:</strong>
+        {{ metadata.gtin_ean }}
+      </p>
+
+      <p>
+        <strong>Description:</strong>
+        {{ metadata.short_description|truncatechars:1000 }}
+      </p>
+
+      <p>
+        <strong>R${{ metadata.price }}</strong>
+      </p>
+
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <strong id="selected-unit">Stock</strong>
+        </button>
+        <ul class="dropdown-menu">
+          {% for i in "123456"|make_list %}
+            <li>
+              <a href="#" class="dropdown-item" data-value="{{ i }}">
+                {{ i }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <form action="{% url 'add_book' %}" method="post" class="d-inline">
+    {% csrf_token %}
+    <input type="hidden" name="stock" id="stock-input">
+    <button type="submit" class="btn btn-primary btn-lg mt-3" id="submit-button" style="display: none;">Cadastrar</button>
+  </form>
+{% endblock content %}

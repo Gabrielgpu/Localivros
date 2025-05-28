@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% for product in products %}
+    <div id="id" class="d-flex container shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+      <div>
+        <img src="{{ product.url_external_images }}" alt="" width="350" class="m-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+      </div>
+
+      <section>
+        <p>
+          <h1>{{ product.description }}</h1>
+        </p>
+        <br>
+        <p>
+          <strong>Description:</strong>
+          {{ product.short_description|truncatechars:500 }}
+        </p>
+
+        <p>
+          <strong>ISBN:</strong>
+          {{ product.gtin_ean }}
+        </p>
+
+        <p>
+          <strong>R${{ product.price }}</strong>
+        </p>
+
+        <p>
+          <strong>{{ product.stock }}</strong>
+        </p>    
+
+        <p>
+          Criado por: {{ product.user }}
+        </p>
+      </section>
+      <form method="get" action=" {% url 'book_detail' product.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-sm">Detalhes</button>
+      </form>
+    </div>
+
+  {% endfor %}
+{% endblock content %}

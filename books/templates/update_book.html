@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h2 class="text-center">Atualizar Livro</h2>
+        <hr>
+        <form method="post" class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit" class="btn btn-success">Atualizar</button>
+            <a href="{% url "books" %}" class="btn btn-primary">Voltar</a>
+        </form>
+    </div>
+{% endblock content %}
+
