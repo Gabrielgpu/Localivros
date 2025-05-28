@@ -1,3 +1,14 @@
 venv/
 __pycache__/
 *.py[cod]
+*$py.class
+
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+
+.env
+venv/
