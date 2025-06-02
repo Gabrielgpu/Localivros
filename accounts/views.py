@@ -35,10 +35,6 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
     messages.success(self.request, self.success_message)
     return super().dispatch(request, *args, **kwargs)
 
-  def dispatch(self, request, *args, **kwargs):
-    messages.success(self.request, self.success_message)
-    return super().dispatch(request, *args, **kwargs)
-
 
 class UserCreateView(SuccessMessageMixin, CreateView):
   form_class = SignUpForm
