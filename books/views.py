@@ -5,8 +5,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.urls import reverse_lazy   
 from django.shortcuts import redirect
+from django.db.models import Q
 from .models import Book
 from .forms import EditBookForm
+
 
 
 
@@ -49,6 +51,25 @@ class BookListView(LoginRequiredMixin, ListView):
   model = Book
   template_name = 'books.html'
   context_object_name = 'products'
+  paginate_by = 5
+  ordering = ['id']
+
+
+  def get_queryset(self):
+      queryset = super().get_queryset()
+      query = self.request.GET.get('query')
+
+      if query:
+        search_fields = ['id', 'created_at', 'description', 'gtin_ean', 'product_category', 'author', 'user_id__username', 'year_published']
+
+        query_objects = Q()
+        for field in search_fields:
+          query_objects |= Q(**{f"{field}__icontains": query})
+
+        queryset = queryset.filter(query_objects)
+
+      return queryset
+  
 
 class BookDetailView(LoginRequiredMixin, DetailView):
   model = Book
