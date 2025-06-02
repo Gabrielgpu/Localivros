@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('form[role="search"]');
-  const button = document.getElementById('search-button');
+  const input = document.getElementById('id_isbn');
   const spinner = document.getElementById('loading-spinner');
 
-  if (form && button && spinner) {
-    form.addEventListener('submit', function () {
-      button.disabled = true;
-      button.innerText = 'Buscando...';
-      spinner.style.display = 'block';
+  if (form && input && spinner) {
+    form.addEventListener('submit', function (event) {
+      input.classList.remove('opacity-0');
+      input.classList.add('opacity-50');
+      spinner.classList.remove('hidden');
+
     });
   }
 });
