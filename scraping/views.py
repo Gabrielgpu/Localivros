@@ -3,7 +3,7 @@ from django.http import HttpResponseBadRequest, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views import View
-from .utils import ScraperManager
+from .utils.scraping import ScraperManager
 import asyncio
 from books.models import Book
 
