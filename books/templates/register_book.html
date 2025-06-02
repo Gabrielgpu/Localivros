@@ -6,50 +6,98 @@
 {% endblock scripts %}
 
 {% block content %}
-  <div id="id" class="d-flex container shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-    <div>
-      <img src="{{ metadata.url_external_images }}" alt="" width="350" class="m-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-    </div>
-
-    <section>
-      <p>
-        <h1>{{ metadata.title }}</h1>
-      </p>
-
-      <p>
-        <strong>ISBN:</strong>
-        {{ metadata.gtin_ean }}
-      </p>
-
-      <p>
-        <strong>Description:</strong>
-        {{ metadata.short_description|truncatechars:1000 }}
-      </p>
-
-      <p>
-        <strong>R${{ metadata.price }}</strong>
-      </p>
-
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <strong id="selected-unit">Stock</strong>
-        </button>
-        <ul class="dropdown-menu">
-          {% for i in "123456"|make_list %}
-            <li>
-              <a href="#" class="dropdown-item" data-value="{{ i }}">
-                {{ i }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
+  <div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p class="text-[#0e141b] tracking-light text-[32px] font-bold leading-tight min-w-72">Confirm Book Registration</p>
       </div>
-    </section>
-  </div>
+      <div class="p-4">
+        <div class="flex items-stretch justify-between gap-4 rounded-xl">
+          <div class="flex flex-col gap-1 flex-[2_2_0px]">
+            <p class="text-[#0e141b] text-base font-bold leading-tight">{{ metadata.title }}</p>
+            <p class="text-[#4e7097] text-sm font-normal leading-normal">Author: {{ metadata.author }} | ISBN: {{ metadata.gtin_ean }}</p>
+          </div>
+          <div
+            class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+            style='background-image: url("{{ metadata.url_external_images }}");'
+          ></div>
+        </div>
+      </div>
+      <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Description</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">
+            {{ metadata.short_description|truncatechars:500 }}
+          </p>
+        </div>
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Publication Year</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">{{ metadata.year_published }}</p>
+        </div>
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Quantity</p>
 
-  <form action="{% url 'add_book' %}" method="post" class="d-inline">
-    {% csrf_token %}
-    <input type="hidden" name="stock" id="stock-input">
-    <button type="submit" class="btn btn-primary btn-lg mt-3" id="submit-button" style="display: none;">Cadastrar</button>
-  </form>
+          <div class="relative inline-block text-left w-20">
+            <button type="button" class="inline-flex justify-between w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="dropdown-button">
+              <strong id="selected-unit">1</strong>
+              <svg class="ml-1 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 011.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <ul class="absolute mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10 hidden" id="dropdown-menu">
+              {% for i in "123456"|make_list %}
+                <li>
+                  <a href="#" class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-value="{{ i }}">
+                    {{ i }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Price</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">R${{ metadata.price }}</p>
+        </div>
+      </div>
+      
+      <div class="flex justify-stretch">
+        <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
+          <a href="{% url 'book_search' %}"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e7edf3] text-[#0e141b] text-sm font-bold leading-normal tracking-[0.015em]"
+          >
+            <span class="truncate">Cancel</span>
+          </a>
+
+          <form action="{% url 'add_book' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="stock" id="stock-input">
+            <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#1978e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]"
+                type="submit"
+                id="submit-button"
+                >
+                Confirm Registration
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+        
+  

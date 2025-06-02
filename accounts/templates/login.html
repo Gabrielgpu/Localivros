@@ -1,19 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 class="text-center">Login</h2>
-  <hr>
-  <form method="POST" action="{% url "login" %}">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label class="for-label">Usuário</label>
-      <input type="text" name="username" class="form-control" required>
-    </div>
-    
-    <div class="mb-3">
-      <label class="for-label">Senha</label>
-      <input type="password" name="password" class="form-control" required>
-    </div>
-    <button class="btn btn-primary" type="submit">Login</button>
-  </form>
+  <div class="flex flex-1 items-center justify-center min-h-[calc(100vh-64px)] px-4">
+    <div class="w-full max-w-[512px] py-5 flex flex-col">
+      <h2 class="text-[#0e141b] text-[28px] font-bold leading-tight text-center pb-3 pt-5">Welcome back</h2>
+
+      <form method="POST" action="{% url 'login' %}" class="space-y-5">
+        {% csrf_token %}
+        <div class="flex flex-wrap items-end gap-4 px-4 py-3">
+          <label class="flex flex-col w-full">
+            <input
+              placeholder="Username"
+              name="username"
+              type="text"
+              required
+              class="form-input w-full rounded-xl border border-[#d0dbe7] bg-slate-50 text-[#0e141b] placeholder:text-[#4e7097] h-14 px-4 text-base font-normal focus:outline-none focus:border-blue-500"
+            />
+          </label>
+        </div>
+
+        <div class="flex flex-wrap items-end gap-4 px-4 py-3">
+          <label class="flex flex-col w-full">
+            <input
+              placeholder="Password"
+              name="password"
+              type="password"
+              required
+              class="form-input w-full rounded-xl border border-[#d0dbe7] bg-slate-50 text-[#0e141b] placeholder:text-[#4e7097] h-14 px-4 text-base font-normal focus:outline-none focus:border-blue-500"
+            />
+          </label>
+        </div>
+
+        <p class="text-[#4e7097] text-sm text-center underline px-4 pt-1 pb-3 cursor-pointer">Forgot Password?</p>
+
+        <div class="px-4 py-3">
+          <button
+            class="w-full rounded-full h-10 bg-[#1978e5] text-white text-sm font-bold tracking-wide hover:bg-blue-700 transition-colors"
+            type="submit"
+          >
+            Login
+          </button>
+        </div>
+
+        <a href="{% url "register" %}"><p class="text-[#4e7097] text-sm text-center underline px-4 pt-1 pb-3 cursor-pointer">Don't have an account? Sign Up</p></a>
+      </div>
+    </form>
+  </div>
+
 {% endblock content %}

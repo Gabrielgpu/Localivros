@@ -1,46 +1,92 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div id="id" class="d-flex container shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-    <div>
-      <img src="{{ product.url_external_images }}" alt="" width="350" class="m-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+ <div class="gap-1 px-6 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col w-80">
+      <div class="flex w-full grow bg-gray-50 @container p-4">
+        <div class="w-full gap-1 overflow-hidden bg-gray-50 @[480px]:gap-2 aspect-[2/3] rounded-xl flex">
+          <div
+            class="w-full bg-center bg-no-repeat bg-cover aspect-auto rounded-none flex-1"
+            style='background-image: url("{{ product.url_external_images }}");'
+          ></div>
+        </div>
+      </div>
     </div>
-
-    <section>
-      <p>
-        <h1>{{ product.description }}</h1>
+    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+      <div class="flex flex-wrap gap-2 p-4">
+        <a class="text-[#5c718a] text-base font-medium leading-normal" href="{% url 'books' %}">Books</a>
+        <span class="text-[#5c718a] text-base font-medium leading-normal">/</span>
+        <span class="text-[#101418] text-base font-medium leading-normal">Book Details</span>
+      </div>
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <div class="flex min-w-72 flex-col gap-3">
+          <p class="text-[#101418] tracking-light text-[32px] font-bold leading-tight">{{ product.description }}</p>
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">By {{ product.author }}</p>
+        </div>
+      </div>
+      <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">ISBN</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">{{ product.gtin_ean }}</p>
+        </div>
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Published</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">{{ product.year_published }}</p>
+        </div>
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Pages</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">{{ product.page_of_number }}</p>
+        </div>
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Price</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">{{ product.price }}</p>
+        </div>
+        <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#d4dbe2] py-5">
+          <p class="text-[#5c718a] text-sm font-normal leading-normal">Stock</p>
+          <p class="text-[#101418] text-sm font-normal leading-normal">{{ product.stock }}</p>
+        </div>
+      </div>
+      <p class="text-[#101418] text-base font-normal leading-normal pb-3 pt-1 px-4">
+        {{ product.short_description }}
       </p>
-
-      <p>
-        <strong>Description:</strong>
-        {{ product.short_description|truncatechars:1000 }}
-      </p>
-
-      <p>
-        <strong>ISBN:</strong>
-        {{ product.gtin_ean }}
-      </p>
-
-      <p>
-        <strong>R${{ product.price }}</strong>
-      </p>
-
-      <p>
-        <strong>{{ product.stock }}</strong>
-      </p>    
-
-      <p>
-        Criado por: {{ product.user }}
-      </p>
-    </section>
+      <div class="flex justify-stretch">
+        <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
+          <form method="get" action=" {% url 'update_book' product.id %} " class="d-inline">
+            {% csrf_token %}
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#b2cae5] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
+              type="submit"
+              >
+              <span class="truncate">Edit</span>
+            </button>
+          </form>
+          <form method="post" action=" {% url 'delete_book' product.id %} " class="d-inline">
+            {% csrf_token %}
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#eaedf1] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
+              type="submit"
+              >
+              <span class="truncate">Delete</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <form method="get" action=" {% url 'update_book' product.id %} " class="d-inline">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary btn-sm">Editar</button>
-  </form>
-
-  <form method="post" action=" {% url 'delete_book' product.id %} " class="d-inline">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-  </form>
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+        
+  
+
+
