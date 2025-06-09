@@ -24,7 +24,9 @@ class BookCreateView(LoginRequiredMixin, CreateView):
     stock = request.POST.get('stock')
 
     if metadata and stock:
-      Book.objects.create(
+
+      book = Book.objects.create(
+        created_by = request.user,
         description = metadata.get('title', ''),
         price = metadata.get('price', ''),
         gtin_ean = metadata.get('gtin_ean', ''),
@@ -41,6 +43,9 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         author = metadata.get('author', ''),
         stock = stock
       )
+      
+      book.code = f"LC-{book.id}"
+      book.save()
       messages.success(request, self.success_message)
     else:
       messages.error(request, self.error_message)
@@ -51,7 +56,7 @@ class BookListView(LoginRequiredMixin, ListView):
   model = Book
   template_name = 'books.html'
   context_object_name = 'products'
-  paginate_by = 5
+  paginate_by = 10
   ordering = ['id']
 
 
