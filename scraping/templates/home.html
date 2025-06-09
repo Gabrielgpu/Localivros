@@ -8,6 +8,12 @@
 {% block content %}
   <div class="px-40 flex flex-1 justify-center py-5">
     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+
+      <div class="px-4 py-2 text-center">
+        <h2 class="text-3xl font-bold mb-2">Bem-vindo ao Localivros</h2>
+        <p class="text-gray-600">Pesquise livros pelo ISBN e gerencie seu acervo com facilidade.</p>
+      </div>
+      
       <div class="px-4 py-3">
         <label class="flex flex-col min-w-40 h-12 w-full">
           <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
@@ -18,11 +24,10 @@
               data-weight="regular"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
-                ></path>
+                <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
               </svg>
             </div>
+
             <form method="post" action="{% url 'book_search' %}" role="search" class="w-full m-0 flex gap-2 items-center relative">
               {% csrf_token %}
               <input
@@ -45,7 +50,19 @@
           </div>
         </label>
       </div>
+
+      <div class="px-4">
+        <div class="bg-white rounded-xl shadow-md p-6 ">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">📚 Últimos livros cadastrados</h2>
+          <ul class="list-disc list-inside text-gray-700 space-y-1">
+            {% for book in books %}
+            <li>{{book.description|truncatechars:40}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      
     </div>
-  </div>
+</div>
+
 {% endblock content %}
 
