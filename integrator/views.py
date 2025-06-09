@@ -5,6 +5,7 @@ from django.conf import settings
 from .models import Credentials
 from .services import bling
 from books.models import Book
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from requests_oauthlib import OAuth2Session
 from pathlib import Path
@@ -22,7 +23,7 @@ token_url = settings.EXTERNAL_API_TOKEN_ENDPOINT
 authorization_base_url = settings.EXTERNAL_API_AUTHORIZATION_END_POINT
 
 
-class AuthBlingView(View):
+class AuthBlingView(LoginRequiredMixin, View):
 
     def get(self, request):
         os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -35,7 +36,7 @@ class AuthBlingView(View):
         return redirect(authorization_url)
 
 
-class AuthBlingCallbackView(View):
+class AuthBlingCallbackView(LoginRequiredMixin, View):
     success_message = 'Token armazenado no banco de dados'
 
     def get(self, request):
@@ -70,7 +71,7 @@ class AuthBlingCallbackView(View):
 
 
 
-class SendProductToBlingView(View):
+class SendProductToBlingView(LoginRequiredMixin, View):
 
     def post(self, request):
         id = request.POST.get('id')
