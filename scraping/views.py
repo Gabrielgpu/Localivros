@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseBadRequest, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views import View
@@ -13,25 +12,31 @@ class ScrapingView(LoginRequiredMixin, View):
   template_name = 'home.html'
   error_message = 'Isbn é obrigatório!'
 
+
   def get(self, request):
-    return render(request, self.template_name)
+    latest_books = Book.objects.order_by('-created_at')[:5]
+    return render(request, self.template_name, {'books': latest_books})
 
   def post(self, request):
     isbn = request.POST.get('isbn')
-    metadata = Book.objects.filter(gtin_ean=isbn).first()
+    metadata_database = Book.objects.filter(gtin_ean=isbn).first()
 
     if not isbn:
       messages.error(request, self.error_message)
       return redirect('book_search')
     
-    if not metadata:
-      metadata = asyncio.run(self.scraping(isbn))
+    if metadata_database:
+      messages.info(request, f'O livro "{metadata_database.description}" já está cadastrado.')
+      return redirect('book_detail', metadata_database.id)
+    
+    metadata_scraping = asyncio.run(self.scraping(isbn))
 
-      request.session['book_metadata'] = metadata
+    if metadata_scraping:
+      request.session['book_metadata'] = metadata_scraping
+      return render(request, 'register_book.html', { 'metadata': metadata_scraping })
 
-      return render(request, 'register_book.html', { 'metadata': metadata })
-
-    return redirect('book_detail', metadata.id)
+    messages.error(request, f'Não foi possível localizar o livro vinculado ao isbn: {isbn}')
+    return redirect('book_search')
 
   async def scraping(self, isbn=None):
     await scraper.start_first_part()
