@@ -39,17 +39,22 @@ git clone https://github.com/seu-usuario/localivros.git
 pip install -r requirements.txt
 ```
 
-3. **Aplique as migrações:**
+3. **Instalar playwright:**
+```bash
+playwright install
+```
+
+4. **Aplique as migrações:**
 ```bash
 python manage.py migrate
 ```
 
-4. **Inicie o sistema:**
+5. **Inicie o sistema:**
 ```bash
 python manage.py runsever
 ```
 
-5. **Acesse a rota para criar um usuario:**
+6. **Acesse a rota para criar um usuario:**
 http://127.0.0.1:8000/account/register
 
 
