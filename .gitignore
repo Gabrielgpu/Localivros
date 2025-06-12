@@ -11,4 +11,5 @@ media/
 staticfiles/
 
 .env
+docker-compose.yml
 venv/
