@@ -10,7 +10,7 @@ class Book(models.Model):
         blank=True,
         related_name='livros'
     )
-    id_bling = models.IntegerField(blank=True, null=True)
+    id_bling = models.CharField(max_length=50, blank=True, null=True)
     code = models.CharField(max_length=50, blank=True)
     gtin_ean = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
