@@ -3,5 +3,5 @@ from .views import *
 
 
 urlpatterns = [
-    path('buscar/', ScrapingView.as_view(), name='book_search')
+    path('', ScrapingView.as_view(), name='book_search')
 ]
