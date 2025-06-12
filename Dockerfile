@@ -3,7 +3,6 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Instalar dependências de sistema
 RUN apt-get update && apt-get install -y \
     gcc \
     libjpeg-dev \
@@ -21,18 +20,12 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Criar diretório de trabalho
 WORKDIR /app
-
-# Copiar os arquivos do projeto
 COPY . .
 
-# Instalar dependências Python
 RUN pip install --upgrade pip && pip install -r requirements.txt
-
-# (Opcional) Instalar navegadores do Playwright se for usá-lo
 RUN python -m playwright install --with-deps
 
-# Comando padrão para iniciar o servidor
-CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+EXPOSE 8000
 
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
