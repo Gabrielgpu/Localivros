@@ -34,4 +34,5 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 RUN python -m playwright install --with-deps
 
 # Comando padrão para iniciar o servidor
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+
