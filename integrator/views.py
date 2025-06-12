@@ -80,6 +80,9 @@ class SendProductToBlingView(LoginRequiredMixin, View):
 
         credentials = Credentials.objects.last()
 
+        if credentials is None:
+            return redirect('auth_bling')
+
         if not credentials.is_token_valid():
             token_valid = credentials.refresh()
 
