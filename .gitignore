@@ -8,7 +8,7 @@ __pycache__/
 *.pyc
 db.sqlite3
 media/
-staticfiles/
+static_files/
 
 .env
 docker-compose.yml
