@@ -5,7 +5,7 @@ import requests
 import base64
 from django.conf import settings
 
-class Credentials(models.Model):
+class ApiIntegrationToken(models.Model):
     access_token = models.TextField()
     refresh_token = models.TextField()
     expires_in = models.IntegerField()
@@ -17,8 +17,8 @@ class Credentials(models.Model):
         return timezone.now() < (expires_at - timedelta(minutes=margin_minutes))
 
     def refresh(self):
-        client_id = settings.EXTERNAL_CLIENT_ID
-        client_secret = settings.EXTERNAL_CLIENT_SECRET
+        client_id, client_secret = BlingCredential.get_credentials()
+
         token_url = settings.EXTERNAL_API_TOKEN_ENDPOINT
 
         credentials = f"{client_id}:{client_secret}"
@@ -34,9 +34,12 @@ class Credentials(models.Model):
             "grant_type": "refresh_token",
             "refresh_token": self.refresh_token
         }
+        print(f"CLIENT ID: {client_id}\nClIENT SECRET: {client_secret}")
+
 
         response = requests.post(token_url, headers=headers, data=data)
 
+        print(response.json())
         if response.status_code == 200:
             token_data = response.json()
             self.access_token = token_data.get("access_token")
@@ -44,4 +47,18 @@ class Credentials(models.Model):
             self.expires_in = token_data.get("expires_in")
             self.save()
             return True
+        
         return False
+
+
+class BlingCredential(models.Model):
+    client_id = models.CharField(max_length=150, blank=True)
+    client_secret = models.CharField(max_length=150, blank=True)
+    deposit_id = models.CharField(max_length=50, blank=True)
+
+
+    @classmethod
+    def get_credentials(cls):
+        credentials = cls.objects.last()
+        return credentials.client_id, credentials.client_secret
+
