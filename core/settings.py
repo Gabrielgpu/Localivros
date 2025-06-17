@@ -5,8 +5,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-EXTERNAL_CLIENT_ID = os.getenv("EXTERNAL_CLIENT_ID")
-EXTERNAL_CLIENT_SECRET = os.getenv("EXTERNAL_CLIENT_SECRET")
 EXTERNAL_API_URI = os.getenv("EXTERNAL_API_URI")
 EXTERNAL_API_TOKEN_ENDPOINT = os.getenv("EXTERNAL_API_TOKEN_ENDPOINT")
 EXTERNAL_API_AUTHORIZATION_END_POINT = os.getenv("EXTERNAL_API_AUTHORIZATION_END_POINT")
@@ -71,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'integrator.context_processors.bling_credentials',
             ],
         },
     },
