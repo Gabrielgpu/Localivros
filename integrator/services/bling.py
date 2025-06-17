@@ -506,12 +506,12 @@ def create_product(model, access_token):
 
 
 
-def increment_stock(model, access_token):
+def increment_stock(model, deposit_id, access_token):
     url = "https://bling.com.br/Api/v3/estoques"
 
     payload = json.dumps({
         "deposito": {
-        "id": "14888291425"
+        "id": f"{deposit_id}"
         },
         "operacao": "B",
         "produto": {
