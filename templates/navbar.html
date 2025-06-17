@@ -13,15 +13,19 @@
   <div class="flex flex-1 justify-end gap-8">
     <div class="flex items-center gap-9">
       {% if user.is_authenticated %}
-        <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'bling_credentials' %} ">Credentials</a>
         <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'book_search' %} ">Home</a>
-        <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'books' %} ">Books</a>
-        <form method="post" action="{% url 'logout' %}" class="flex items-center m-0">
-          {% csrf_token %}
-          <button type="submit" class="text-[#0e141b] text-sm font-medium leading-normal bg-transparent border-none p-0 m-0">
-            Logout
-          </button>
-        </form>
+        {% if has_credential %}
+          <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'update_credential' bling_credential.id %} ">Edit Credentials</a>
+        {% else %}
+          <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'bling_credentials' %} ">Credentials</a>
+        {% endif %}
+          <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'books' %} ">Books</a>
+          <form method="post" action="{% url 'logout' %}" class="flex items-center m-0">
+            {% csrf_token %}
+            <button type="submit" class="text-[#0e141b] text-sm font-medium leading-normal bg-transparent border-none p-0 m-0">
+              Logout
+            </button>
+          </form>
       {% else %}
         <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'login' %} ">Sign In</a>
         <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'register' %} ">Sign Up</a>
