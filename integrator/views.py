@@ -125,22 +125,11 @@ class CredentialsBlingToIntegrationCreateView(SuccessMessageMixin, CreateView):
     fields = ["client_id", "client_secret", "deposit_id"]
 
 
-    def get(self, request, *args, **kwargs):
-        if self.is_credential_registered():
-            return render(request, 'update_credential.html', { 'credential': self.model.objects.last() })
-        
-        return super().get(request, *args, **kwargs)
-    
-    def is_credential_registered(self):
-        credential = self.model.objects.last()
-        if credential:
-            return True
-        
-        return False
-
 class EditCredentialsBlingUpdateView(SuccessMessageMixin, UpdateView):
     model = BlingCredential
+    template_name = "update_credential.html"
     success_url = reverse_lazy("books")
     success_message = "Credenciais atualizadas com sucesso!"
     pk_url_kwarg = "id"
     fields = ["client_id", "client_secret", "deposit_id"]
+    context_object_name = "credential"
