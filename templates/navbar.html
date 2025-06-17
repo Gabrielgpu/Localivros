@@ -13,6 +13,7 @@
   <div class="flex flex-1 justify-end gap-8">
     <div class="flex items-center gap-9">
       {% if user.is_authenticated %}
+        <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'bling_credentials' %} ">Credentials</a>
         <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'book_search' %} ">Home</a>
         <a class="text-[#0e141b] text-sm font-medium leading-normal" href=" {% url 'books' %} ">Books</a>
         <form method="post" action="{% url 'logout' %}" class="flex items-center m-0">
